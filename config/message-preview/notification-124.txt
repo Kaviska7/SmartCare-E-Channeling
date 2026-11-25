@@ -1,0 +1,7 @@
+SmartCare appointment alert (local demo)
+To: 0478252615
+Appointment: #10
+Event: BOOKED
+Created (UTC): 2026-10-06 03:35:02.873053
+Message: Booking submitted for administrator confirmation: appointment #10 with Dr. Ashan Abeygunawardhana at Colombo on Oct 6, 2026 at 2:30 PM.
+No SMS was sent.

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: lk.sunshine.smartcare.features.queue.QueueSqlServerTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 6, Time elapsed: 0 s -- in lk.sunshine.smartcare.features.queue.QueueSqlServerTest

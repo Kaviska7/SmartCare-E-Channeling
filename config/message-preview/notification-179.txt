@@ -1,0 +1,7 @@
+SmartCare appointment alert (local demo)
+To: 0771234567
+Appointment: #38
+Event: RESCHEDULED
+Created (UTC): 2026-09-14 13:52:32.6603949
+Message: Schedule changed: your appointment #38 with Dr. Second Test at Main Branch on Sep 21, 2026 at 8:30 PM has a new time.
+No SMS was sent.
