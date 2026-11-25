@@ -1,0 +1,33 @@
+package lk.sunshine.smartcare.features.appointment;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
+
+@Repository
+public class AppointmentRepository {
+    private final JdbcTemplate db;
+    public AppointmentRepository(JdbcTemplate db) { this.db=db; }
+    public long patientId(long userId) { return db.queryForObject("SELECT id FROM patient WHERE user_id=?",Long.class,userId); }
+    public int patientExists(long patientId) { return db.queryForObject("SELECT COUNT(*) FROM patient WHERE id=?",Integer.class,patientId); }
+    public List<Map<String,Object>> searchPatients(String query) { String term="%"+query.toLowerCase()+"%";return db.queryForList("SELECT TOP 20 p.id,u.full_name,p.nic,p.phone FROM patient p JOIN app_user u ON u.id=p.user_id WHERE u.active=1 AND (LOWER(u.full_name) LIKE ? OR LOWER(p.nic) LIKE ? OR p.phone LIKE ?) ORDER BY u.full_name",term,term,term); }
+    public int claimSlot(long slotId) { return db.update("UPDATE s SET s.status='BOOKED',s.version=s.version+1 FROM slot s JOIN doctor d ON d.id=s.doctor_id JOIN doctor_branch db ON db.doctor_id=s.doctor_id AND db.branch_id=s.branch_id JOIN branch b ON b.id=s.branch_id WHERE s.id=? AND s.status='AVAILABLE' AND s.starts_at>SYSDATETIME() AND d.active=1 AND db.active=1 AND b.active=1",slotId); }
+    public long slotBranch(long slotId) { return db.queryForObject("SELECT branch_id FROM slot WHERE id=?",Long.class,slotId); }
+    public void releaseSlot(long slotId) { db.update("UPDATE slot SET status=CASE WHEN retired=1 THEN 'BLOCKED' ELSE 'AVAILABLE' END,version=version+1 WHERE id=? AND status='BOOKED'",slotId); }
+    public long create(long patientId,long slotId) { return db.queryForObject("INSERT INTO appointment(patient_id,slot_id,status,fee_at_booking,branch_id) OUTPUT INSERTED.id SELECT ?,s.id,'PENDING',db.fee,s.branch_id FROM slot s JOIN doctor_branch db ON db.doctor_id=s.doctor_id AND db.branch_id=s.branch_id WHERE s.id=?",Long.class,patientId,slotId); }
+    // Hold the appointment row through transactional edits so check-in cannot race a cancellation or move.
+    public Map<String,Object> one(long id) { return db.queryForMap("SELECT a.id,a.patient_id,a.slot_id,a.status,p.user_id,s.doctor_id,d.user_id AS doctor_user_id,s.starts_at,a.fee_at_booking AS fee,a.branch_id FROM appointment a WITH (UPDLOCK,HOLDLOCK) JOIN patient p ON p.id=a.patient_id JOIN slot s ON s.id=a.slot_id JOIN doctor d ON d.id=s.doctor_id WHERE a.id=?",id); }
+    public long slotDoctor(long slotId) { return db.queryForObject("SELECT doctor_id FROM slot WHERE id=?",Long.class,slotId); }
+    public void changeSlot(long appointmentId,long slotId) { db.update("UPDATE appointment SET slot_id=?,updated_at=SYSUTCDATETIME() WHERE id=?",slotId,appointmentId); }
+    public int confirm(long appointmentId) { return db.update("UPDATE a SET status='CONFIRMED',updated_at=SYSUTCDATETIME() FROM appointment a JOIN slot s ON s.id=a.slot_id JOIN doctor d ON d.id=s.doctor_id JOIN doctor_branch db ON db.doctor_id=s.doctor_id AND db.branch_id=s.branch_id JOIN branch b ON b.id=a.branch_id WHERE a.id=? AND a.status='PENDING' AND s.status='BOOKED' AND s.starts_at>SYSDATETIME() AND d.active=1 AND db.active=1 AND b.active=1",appointmentId); }
+    public void cancel(long appointmentId) { db.update("UPDATE appointment SET status='CANCELLED',updated_at=SYSUTCDATETIME() WHERE id=?",appointmentId);db.update("UPDATE demo_payment SET status='DEMO_REFUNDED' WHERE appointment_id=? AND status='DEMO_PAID'",appointmentId); }
+    public List<Map<String,Object>> listForPatient(long userId) { return db.queryForList("SELECT a.id,a.status,a.branch_id,s.starts_at,s.ends_at,s.doctor_id,d.display_name AS doctor_name,sp.name AS specialty,b.name AS branch_name,a.fee_at_booking AS fee,dp.choice AS payment_method,dp.status AS payment_status FROM appointment a JOIN patient p ON p.id=a.patient_id JOIN slot s ON s.id=a.slot_id JOIN doctor d ON d.id=s.doctor_id JOIN specialty sp ON sp.id=d.specialty_id JOIN branch b ON b.id=a.branch_id LEFT JOIN demo_payment dp ON dp.appointment_id=a.id WHERE p.user_id=? ORDER BY s.starts_at DESC",userId); }
+    public List<Map<String,Object>> listForStaff() { return db.queryForList("SELECT a.id,a.status,a.branch_id,s.starts_at,s.ends_at,pu.full_name AS patient_name,p.nic,p.phone,d.display_name AS doctor_name,s.doctor_id FROM appointment a JOIN patient p ON p.id=a.patient_id JOIN app_user pu ON pu.id=p.user_id JOIN slot s ON s.id=a.slot_id JOIN doctor d ON d.id=s.doctor_id WHERE CAST(s.starts_at AS DATE)=CAST(SYSDATETIME() AS DATE) ORDER BY s.starts_at"); }
+    public List<Map<String,Object>> listForAdmin() { return db.queryForList("SELECT a.id,a.status,a.branch_id,a.booked_at,s.starts_at,s.ends_at,pu.full_name AS patient_name,pu.email AS patient_email,p.nic,p.phone,d.display_name AS doctor_name,s.doctor_id,b.name AS branch_name,a.fee_at_booking AS fee,dp.choice AS payment_method,dp.status AS payment_status,dp.recorded_at AS payment_recorded_at FROM appointment a JOIN patient p ON p.id=a.patient_id JOIN app_user pu ON pu.id=p.user_id JOIN slot s ON s.id=a.slot_id JOIN doctor d ON d.id=s.doctor_id JOIN branch b ON b.id=a.branch_id LEFT JOIN demo_payment dp ON dp.appointment_id=a.id ORDER BY a.booked_at DESC,a.id DESC"); }
+    public List<Map<String,Object>> listForDoctor(long userId) { return db.queryForList("SELECT a.id,a.status,a.branch_id,s.starts_at,s.ends_at,pu.full_name AS patient_name,p.phone,p.date_of_birth,d.display_name AS doctor_name,s.doctor_id FROM appointment a JOIN patient p ON p.id=a.patient_id JOIN app_user pu ON pu.id=p.user_id JOIN slot s ON s.id=a.slot_id JOIN doctor d ON d.id=s.doctor_id WHERE d.user_id=? ORDER BY s.starts_at DESC",userId); }
+    public void payment(long appointmentId,double amount,String choice,String status) { db.update("IF EXISTS(SELECT 1 FROM demo_payment WHERE appointment_id=?) UPDATE demo_payment SET amount=?,choice=?,status=?,recorded_at=SYSUTCDATETIME() WHERE appointment_id=? ELSE INSERT INTO demo_payment(appointment_id,amount,choice,status) VALUES(?,?,?,?)",appointmentId,amount,choice,status,appointmentId,appointmentId,amount,choice,status); }
+    public String paymentStatus(long appointmentId) { return db.query("SELECT status FROM demo_payment WHERE appointment_id=?",(rs,row)->rs.getString(1),appointmentId).stream().findFirst().orElse(null); }
+    public Map<String,Object> receipt(long appointmentId) { return db.queryForMap("SELECT dp.id AS receipt_id,dp.amount,dp.choice,dp.status,dp.recorded_at,a.id AS appointment_id FROM demo_payment dp JOIN appointment a ON a.id=dp.appointment_id WHERE a.id=?",appointmentId); }
+}
