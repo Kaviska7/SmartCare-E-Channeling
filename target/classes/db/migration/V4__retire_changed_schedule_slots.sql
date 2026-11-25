@@ -1,0 +1,1 @@
+ALTER TABLE slot ADD retired BIT NOT NULL CONSTRAINT df_slot_retired DEFAULT 0;

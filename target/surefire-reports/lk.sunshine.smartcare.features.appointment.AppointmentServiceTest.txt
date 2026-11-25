@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: lk.sunshine.smartcare.features.appointment.AppointmentServiceTest
+-------------------------------------------------------------------------------
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.650 s -- in lk.sunshine.smartcare.features.appointment.AppointmentServiceTest

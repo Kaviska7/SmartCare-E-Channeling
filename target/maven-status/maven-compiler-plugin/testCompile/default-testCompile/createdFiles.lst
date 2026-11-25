@@ -1,0 +1,16 @@
+lk\sunshine\smartcare\shared\passwordreset\EmailServiceTest.class
+lk\sunshine\smartcare\features\patient\PatientServiceTest.class
+lk\sunshine\smartcare\shared\passwordreset\PasswordResetServiceTest.class
+lk\sunshine\smartcare\features\appointment\AppointmentServiceTest.class
+lk\sunshine\smartcare\features\notification\NotificationServiceTest.class
+lk\sunshine\smartcare\shared\StaffControllerTest.class
+lk\sunshine\smartcare\features\report\ReportManagementServiceTest.class
+lk\sunshine\smartcare\features\notification\TextAlertWriterTest.class
+lk\sunshine\smartcare\shared\CurrentUserTest.class
+lk\sunshine\smartcare\shared\EmailPolicyTest.class
+lk\sunshine\smartcare\features\report\ReportPresentationTest.class
+lk\sunshine\smartcare\features\patient\PatientRepositoryTest.class
+lk\sunshine\smartcare\features\notification\ReviewServiceTest.class
+lk\sunshine\smartcare\features\queue\QueueServiceTest.class
+lk\sunshine\smartcare\features\report\ReportServiceTest.class
+lk\sunshine\smartcare\features\doctor\DoctorServiceTest.class

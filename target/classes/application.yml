@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: smartcare
+  datasource:
+    url: ${DB_URL:jdbc:sqlserver://localhost:1433;databaseName=smartcare;encrypt=true;trustServerCertificate=true}
+    username: ${DB_USER:smartcare_app}
+    password: ${DB_PASSWORD:}
+  flyway:
+    enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: ${MAIL_SMTP_AUTH:true}
+          starttls:
+            enable: ${MAIL_STARTTLS_ENABLE:true}
+            required: ${MAIL_STARTTLS_REQUIRED:true}
+          ssl:
+            checkserveridentity: true
+          connectiontimeout: ${MAIL_CONNECTION_TIMEOUT_MS:5000}
+          timeout: ${MAIL_READ_TIMEOUT_MS:5000}
+          writetimeout: ${MAIL_WRITE_TIMEOUT_MS:5000}
+  sql:
+    init:
+      mode: never
+server:
+  port: ${PORT:8080}
+  error:
+    include-message: always
+smartcare:
+  bootstrap-admin-email: ${BOOTSTRAP_ADMIN_EMAIL:}
+  bootstrap-admin-password: ${BOOTSTRAP_ADMIN_PASSWORD:}
+  message-preview:
+    directory: ${MESSAGE_PREVIEW_DIR:config/message-preview}
+  password-reset:
+    from: ${PASSWORD_RESET_FROM:${spring.mail.username}}
+    log-code-on-delivery-failure: ${PASSWORD_RESET_LOG_CODE_ON_FAILURE:false}
