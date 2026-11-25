@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="SmartCare" type="Application" factoryName="Application">
+    <envs><env name="SPRING_PROFILES_ACTIVE" value="local" /></envs>
+    <option name="MAIN_CLASS_NAME" value="lk.sunshine.smartcare.SmartCareApplication" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <module name="smartcare" />
+    <method v="2"><option name="Make" enabled="true" /></method>
+  </configuration>
+</component>

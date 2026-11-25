@@ -1,0 +1,61 @@
+.appointment-list-head {
+  align-items: end;
+}
+
+.doctor-appointment-tabs {
+  display: flex;
+  gap: .55rem;
+  overflow-x: auto;
+  padding: .15rem 0 1rem;
+  border-bottom: 1px solid var(--line);
+  scrollbar-width: thin;
+}
+
+.doctor-appointment-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: .55rem;
+  flex: 0 0 auto;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: .55rem .85rem;
+  background: #f3f7f5;
+  color: #315f5c;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.doctor-appointment-tab span {
+  min-width: 1.5rem;
+  padding: .08rem .38rem;
+  text-align: center;
+  border-radius: 999px;
+  background: #dceae5;
+  color: #315f5c;
+  font-size: .78rem;
+}
+
+.doctor-appointment-tab:hover,
+.doctor-appointment-tab.selected {
+  border-color: #07867d;
+  background: #087c77;
+  color: #fff;
+}
+
+.doctor-appointment-tab.selected span {
+  background: #ffffff33;
+  color: #fff;
+}
+
+.doctor-appointment-tab:focus-visible {
+  outline: 3px solid #087c7744;
+  outline-offset: 2px;
+}
+
+.doctor-appointment-panel {
+  min-height: 4rem;
+}
+
+.doctor-appointment-panel > .muted {
+  margin: 1rem 0 0;
+}

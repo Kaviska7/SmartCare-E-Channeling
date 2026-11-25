@@ -1,0 +1,45 @@
+.admin-account-entry {
+  border-bottom: 1px solid var(--line);
+}
+
+.admin-account-entry:last-child {
+  border-bottom: 0;
+}
+
+.admin-account-entry > .list-row {
+  border-bottom: 0;
+}
+
+.account-inactive {
+  background: #f2ecec;
+  color: #945454;
+}
+
+.admin-account-edit {
+  margin: 0 0 1rem;
+  padding: 1rem;
+  border: 1px solid #cfe2dc;
+  border-radius: .85rem;
+  background: rgba(247, 252, 249, .96);
+}
+
+.admin-active-check {
+  align-self: center;
+  margin: 0;
+  padding-left: 1.8rem;
+}
+
+.admin-edit-actions {
+  justify-content: flex-start;
+  align-self: end;
+}
+
+@media (max-width: 650px) {
+  .admin-account-entry > .list-row {
+    display: block;
+  }
+
+  .admin-account-entry > .list-row .actions {
+    margin-top: .8rem;
+  }
+}

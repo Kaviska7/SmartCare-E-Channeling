@@ -1,0 +1,54 @@
+.public-shell { min-height: 100vh; }
+.public-header { min-height: 86px; padding: 1rem max(4vw, 1.5rem); display: flex; justify-content: space-between; align-items: center; gap: 1rem; background: #fff; border-bottom: 1px solid var(--line); }
+.public-brand { flex: 0 1 280px; min-width: 0; }
+.public-logo { display: block; width: clamp(190px, 18vw, 280px); max-width: 100%; height: auto; }
+.public-header-contact { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: .75rem 1.5rem; min-width: 0; }
+.public-hotline { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; color: #087d78; text-decoration: none; white-space: nowrap; }
+.public-hotline:hover { color: #075f64; text-decoration: underline; }
+.public-hotline:focus-visible { outline: 2px solid #087d78; outline-offset: 4px; border-radius: 4px; }
+.public-hotline svg { flex-shrink: 0; }
+.public-hero {
+  min-height: 610px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  overflow: hidden;
+  background-color: #075f64;
+  background-image:
+    linear-gradient(90deg, rgba(5, 55, 65, .99) 0%, rgba(5, 73, 76, .96) 42%, rgba(5, 102, 99, .62) 68%, rgba(5, 119, 111, .28) 100%),
+    url('./assets/on-duty.jpg');
+  background-repeat: no-repeat;
+  background-position: center, right center;
+  background-size: cover, auto 100%;
+  color: #fff;
+  padding: 5rem max(6vw, 1.5rem);
+}
+.public-hero .eyebrow { color: #b5f1de; }
+.public-hero h1 { width: 100%; max-width: 800px; font-size: clamp(2.6rem, 5vw, 4.8rem); line-height: 1.05; }
+.public-hero p:not(.eyebrow) { width: 100%; max-width: 670px; color: #d9f5ed; font-size: 1.08rem; margin: 1.5rem 0; }
+.public-hero > .btn { align-self: flex-start; }
+.public-content { max-width: 1200px; margin: 0 auto; padding: 1rem 2rem 4rem; }
+.public-content .page-heading h2 { margin: 0; font-size: 2.3rem; }
+.slot-button { border: 1px solid #b9dfd3; cursor: pointer; }
+.slot-button:hover { background: #d4f0e5; }
+.today-badge { display: inline-block; width: fit-content; margin-top: .35rem; padding: .35rem .6rem; border-radius: 999px; background: #d7f4e4; color: #126549; font-size: .8rem; font-weight: 700; }
+@media (max-width: 650px) {
+  .public-header { flex-direction: column; align-items: stretch; }
+  .public-brand { flex-basis: auto; }
+  .public-logo { width: min(240px, 100%); margin: 0 auto; }
+  .public-header-contact { flex-direction: column; align-items: stretch; }
+  .public-hotline { align-self: center; }
+  .public-header .actions { width: 100%; flex-direction: column; }
+  .public-header .actions .btn { width: 100%; font-size: .8rem; }
+  .public-hero {
+    min-height: 500px;
+    padding: 3rem 1.5rem;
+    background-image:
+      linear-gradient(90deg, rgba(5, 55, 65, .98) 0%, rgba(5, 70, 73, .94) 65%, rgba(5, 91, 88, .78) 100%),
+      url('./assets/on-duty.jpg');
+    background-position: center, 72% center;
+    background-size: cover, auto 100%;
+  }
+  .public-content { padding: 1rem; }
+}

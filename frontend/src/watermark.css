@@ -1,0 +1,58 @@
+body {
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(rgba(245, 248, 246, .85), rgba(245, 248, 246, .85)),
+    url('./assets/doctor-watermark.jpg');
+  background-repeat: no-repeat;
+  background-position: center, center;
+  background-size: 100% 100%, cover;
+  background-attachment: fixed;
+}
+
+/* Spread the watermark through light surfaces while retaining a strong reading layer. */
+.panel,
+.public-header,
+.doctor-card,
+.metric,
+.inline-form,
+.queue-match,
+.doctor-queue-card {
+  background-color: rgba(255, 255, 255, .88);
+}
+
+/* Inputs and interactive overlays remain fully opaque above the decorative background. */
+.form-control,
+.form-select,
+.alert,
+.alert-popover {
+  background-color: #fff;
+}
+
+/* Bootstrap paints table cells independently, so keep them strongly washed but not solid. */
+.table {
+  --bs-table-bg: rgba(255, 255, 255, .94);
+  --bs-table-striped-bg: rgba(239, 247, 244, .94);
+  --bs-table-hover-bg: rgba(229, 243, 237, .96);
+  background-color: rgba(255, 255, 255, .94);
+}
+
+@media (max-width: 650px) {
+  body {
+    background-image:
+      linear-gradient(rgba(245, 248, 246, .90), rgba(245, 248, 246, .90)),
+      url('./assets/doctor-watermark.jpg');
+    background-position: center, center top;
+    background-size: 100% 100%, cover;
+    background-attachment: scroll;
+  }
+
+  .panel,
+  .public-header,
+  .doctor-card,
+  .metric,
+  .inline-form,
+  .queue-match,
+  .doctor-queue-card {
+    background-color: rgba(255, 255, 255, .92);
+  }
+}
